@@ -14,7 +14,7 @@
 ```gitignore
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
-
+.trash/
 ```
 
 **.obsidian/目录简介**
