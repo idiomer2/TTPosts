@@ -15,6 +15,7 @@
 	- 子agent也定义类型，避免执行不可控的任务。不同的子agent作用不一样，调用工具的权限也不一样。如explore、plan、code，前两者只能read-only，后者拥有完整的read和write工具权限
 	- 构建子agent工具时，需要告诉模型，这个工具的type只能取值\[explore、plan、code\]，限制模型使用子agent的范围
 	- 若模型选定了explore这个子agent后（tool=subagent，subagent_type=explore）,构建新LLM时，限定工具集范围
+4. **v4_skills_agent**：Knowledge Externalization. 知识加载，专业经验无需重训
 
 
 
