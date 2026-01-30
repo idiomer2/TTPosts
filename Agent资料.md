@@ -14,13 +14,14 @@
 	- 限制清单的最大数量；设置提醒机制：初始提醒 和 督促提醒(n轮未使用)
 	  
 3. **v3_subagent**：Divide and Conquer with Context Isolation. 分而治之，上下文隔离
-	- subagent做为特殊工具Task被调用，subagent不能再使用Task形成递归 (真实场景视情况而定)
+	- subagents的各个subagent描述会加入到system_prompt
+	- subagents做为特殊工具Task被调用，subagent不能再使用Task形成递归 (真实场景视情况而定)
 	- subagent也定义类型，避免执行不可控的任务。不同的subagent作用不一样，调用工具的权限也不一样。如explore、plan、code，前两者只能read-only，后者拥有完整的read和write工具权限
 	- 构建subagent工具时，需要告诉模型，这个工具的type只能取值\[explore、plan、code\]，限制模型使用子agent的范围
 	- 若模型选定了explore这个subagent后（tool=subagent，subagent_type=explore）,构建新LLM时，限定工具集范围
 	  
 4. **v4_skills_agent**：Knowledge Externalization. 知识加载，专业经验无需重训
-	- 
+	- skills的名称和简介加入到system_prompt
 	- skills做为特殊工具Skill被调用
 
 
