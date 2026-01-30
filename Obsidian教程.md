@@ -6,7 +6,7 @@
 ## 初步使用
 
 1. 在github上创建一个仓库
-2. 本地clone这个仓库
+2. 本地clone这个仓库 （尽量使用https协议而非ssh协议，因为手机端不支持ssh）
 3. 新增.gitignore文件，忽略如下文件
 4. 在obsidian打开本地仓库即可。后续新建的md文章都会在本地仓库生成对应md文件
 5. git add + git commit + git push  一连套同步打包带走
