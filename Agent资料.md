@@ -20,7 +20,8 @@
 	- 若模型选定了explore这个subagent后（tool=subagent，subagent_type=explore）,构建新LLM时，限定工具集范围
 	  
 4. **v4_skills_agent**：Knowledge Externalization. 知识加载，专业经验无需重训
-	- skills做为特殊工具被调用
+	- 
+	- skills做为特殊工具Skill被调用
 
 
 
