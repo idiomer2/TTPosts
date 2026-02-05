@@ -1,0 +1,73 @@
+{
+  "id": "cb79966b-26b2-409a-bca1-a82c4fd3019f",
+  "title": "新消息",
+  "messages": [
+    {
+      "role": "user",
+      "content": {
+        "root": {
+          "children": [
+            {
+              "children": [
+                {
+                  "detail": 1,
+                  "format": 0,
+                  "mode": "token",
+                  "style": "",
+                  "text": "@常用配置.md",
+                  "type": "mention",
+                  "version": 1,
+                  "mentionName": "常用配置.md",
+                  "mentionable": {
+                    "type": "current-file",
+                    "file": "Linux/常用配置.md"
+                  }
+                },
+                {
+                  "detail": 0,
+                  "format": 0,
+                  "mode": "normal",
+                  "style": "",
+                  "text": " 继续生成",
+                  "type": "text",
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "format": "",
+              "indent": 0,
+              "type": "paragraph",
+              "version": 1,
+              "textFormat": 0,
+              "textStyle": ""
+            }
+          ],
+          "direction": "ltr",
+          "format": "",
+          "indent": 0,
+          "type": "root",
+          "version": 1
+        }
+      },
+      "promptContent": [
+        {
+          "type": "text",
+          "text": "\n\n@常用配置.md 继续生成\n\n"
+        }
+      ],
+      "id": "370bb903-e2c0-4ee6-ad8f-10fe11fd9721",
+      "mentionables": [
+        {
+          "type": "current-file",
+          "file": "Linux/常用配置.md"
+        }
+      ],
+      "reasoningLevel": "off"
+    }
+  ],
+  "createdAt": 1770258121841,
+  "updatedAt": 1770258124079,
+  "schemaVersion": 1,
+  "overrides": null,
+  "reasoningLevel": "off"
+}
