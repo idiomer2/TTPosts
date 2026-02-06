@@ -104,6 +104,14 @@ Skills with available="false" need dependencies installed first - you can try in
 
 
 
+
+
+## 不用RAG的知识库检索
+
+
+
+
+
 ## 参考资料
 - [Hello-Agents](https://datawhalechina.github.io/hello-agents/#/./README?id=%f0%9f%8e%af-%e9%a1%b9%e7%9b%ae%e4%bb%8b%e7%bb%8d)
 - [shareAI-lab/learn-claude-code: Bash is all you need！write a claude code with only 16 line code](https://github.com/shareAI-lab/learn-claude-code)
