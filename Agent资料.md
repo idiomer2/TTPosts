@@ -108,7 +108,7 @@ Skills with available="false" need dependencies installed first - you can try in
 
 ## 不用RAG的知识库检索
 
-文件 -》 分页 -》目录索引 -》摘要
+文件夹 -》文件 -》 分页 -》目录索引 -》摘要
 
 
 
