@@ -6,7 +6,15 @@
 	1. 如有必要 (WSL)，提前建立需要用的目录`mkdir -p ~/.openclaw/workspace && chmod -R 777 ~/.openclaw`；
 	2. 如有必要 (dd终端)，在非C盘提前建立`.openclaw/workspace`目录，然后执行run之前，设置好环境变量OPENCLAW_CONFIG_DIR和OPENCLAW_WORKSPACE_DIR分别指向`D:\.openclaw`和`D:.openclaw\workspace`
 4. 快速基础设置详情
-	1. 
+	- （yes） I understand this is powerful and inherently risky. Continue?
+	- （QuickStart）Onboarding mode
+	- （OpenRouter）Model/auth provider
+	- （OpenRouter API key）OpenRouter auth method
+	- （sk-or-v1-xxx）Enter OpenRouter API key
+	- （openrouter/stepfun/step-3.5-flash:free）Default model
+	- （Skip for now）Select channel (QuickStart)
+	- （No）Configure skills now?
+	- （No）Enable zsh shell completion for openclaw?
 5. 执行`docker compose up -d openclaw-gateway` 启动gateway服务
 6. 打开 http://127.0.0.1:18789 应该会显示如下报错
 	1. disconnected (1008): unauthorized: gateway token mismatch (open the dashboard URL and paste the token in Control UI settings)
