@@ -21,3 +21,9 @@
 		- 解决方法：手动打开`.openclaw/openclaw.json`，逐层找到`gateway.auth.token`，将token复制粘贴到网页的`Overview -> Gateway Access -> Gateway Token`中，点击`Connect`按钮
 	2. disconnected (1008): pairing required
 		- 解决方法：手动打开`.openclaw/openclaw.json`，找到`gateway`，新增内容`"controlUi": { "dangerouslyDisableDeviceAuth": true },`也就是设置`gateway.controlUi.dangerouslyDisableDeviceAuth`为`true`
+
+
+
+## 参考资料
+- [[Bug]: Docker install/onboarding stuck: CLI can’t connect to gateway (1006/1008), token mismatch due to OPENCLAW_GATEWAY_TOKEN override + confusing pairing flow/docs · Issue #9028 · openclaw/openclaw](https://github.com/openclaw/openclaw/issues/9028)
+- 
