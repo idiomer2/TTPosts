@@ -22,7 +22,7 @@
 		- 解决方法2：`docker compose run --rm openclaw-cli config get gateway.auth.token`获取token
 	2. disconnected (1008): pairing required
 		- 解决方法1：手动打开`.openclaw/openclaw.json`，找到`gateway`，新增内容`"controlUi": { "dangerouslyDisableDeviceAuth": true },`也就是设置`gateway.controlUi.dangerouslyDisableDeviceAuth`为`true`
-		- 解决方法2：`docker compose run --rm openclaw-cli config set gateway.controlUi.allowInsecureAuth true`
+		- 解决方法2：`docker compose run --rm openclaw-cli config set gateway.controlUi.dangerouslyDisableDeviceAuth true`
 
 
 
