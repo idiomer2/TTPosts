@@ -28,4 +28,5 @@
 
 ## 参考资料
 - [[Bug]: Docker install/onboarding stuck: CLI can’t connect to gateway (1006/1008), token mismatch due to OPENCLAW_GATEWAY_TOKEN override + confusing pairing flow/docs · Issue #9028 · openclaw/openclaw](https://github.com/openclaw/openclaw/issues/9028)
-- 
+- [解决 Web UI 配对要求问题 | OpenClaw 中文社区 - 开源免费 AI 助手 | WhatsApp/Telegram/微信自动化](https://clawd.org.cn/gateway/pairing-required-troubleshooting)
+- [[Bug]: Onboarding wizard does not install Systemd service on Ubuntu 22.04 · Issue #1818 · openclaw/openclaw](https://github.com/openclaw/openclaw/issues/1818)
