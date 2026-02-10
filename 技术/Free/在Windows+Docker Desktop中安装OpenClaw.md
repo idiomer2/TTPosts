@@ -100,10 +100,12 @@
 
 ## 飞书配置
 
-- （可选）可以提前安装插件：`openclaw plugins install @openclaw/feishu`
+- （可选，建议不要）可以提前安装插件：`openclaw plugins install @openclaw/feishu`
 - 开启channels向导：`openclaw channels add`
 - 后续参考官网教程即可 [飞书 - OpenClaw](https://docs.openclaw.ai/zh-CN/channels/feishu)
 - 每分钟一次心跳导致飞书额度不足，请参考 [OpenClaw 飞书API调用次数耗尽解决办法 - xx0a.com](https://xx0a.com/blog/openclaw-feishu)
+	- docker安装，在build时就已经将官方飞书插件代码打包在镜像里面了，改完后要重新build一次
+	- 官方飞书插件路径：./extensions/feishu (git源码)  --> /app/extensions/feishu (docker)
 - 菜单栏配置：[OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
 
 
