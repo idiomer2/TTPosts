@@ -1,4 +1,5 @@
 
+## 通过docker基础安装
 
 1. github下载zip包并解压到D盘
 2. 在docker desktop中的终端，cd到解压后的目录，并执行`docker build -t openclaw:local -f Dockerfile .`构建镜像
@@ -23,6 +24,77 @@
 	2. disconnected (1008): pairing required
 		- 解决方法1：手动打开`.openclaw/openclaw.json`，找到`gateway`，新增内容`"controlUi": { "dangerouslyDisableDeviceAuth": true },`也就是设置`gateway.controlUi.dangerouslyDisableDeviceAuth`为`true`
 		- 解决方法2：`docker compose run --rm openclaw-cli config set gateway.controlUi.dangerouslyDisableDeviceAuth true`
+
+
+## 常用命令
+
+### / 命令
+
+| 命令                      | 说明           |
+| ----------------------- | ------------ |
+| /help                   | 查看帮助         |
+| /commands               | 查看所有/命令      |
+|                         |              |
+| /models                 | 查看已配置的提供商和模型 |
+| /model status           | 查看当前模型状态     |
+| /model <provider/model> | 切换模型         |
+|                         |              |
+
+### cli命令
+
+
+
+## 配置第三方provider
+- 参考官方文档：[模型提供商 - OpenClaw](https://docs.openclaw.ai/zh-CN/concepts/model-providers#%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86%EF%BC%88lm-studio%E3%80%81vllm%E3%80%81litellm-%E7%AD%89%EF%BC%89)
+- 如下为配置示例，正确配置后立刻生效，不用重启gateway
+``` json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "fucaixie/kimi-k2"
+      },
+      "models": {
+        "openrouter/auto": {"alias": "OpenRouter"},
+        "openrouter/stepfun/step-3.5-flash:free": {},
+        "fucaixie/kimi-k2": {"alias": "kimi-k2(opencode)"},
+        "fucaixie/kimi-k2-0905": {"alias": "kimi-k2-0905(iflowcn)"},
+        "fucaixie/deepseek-v3": {"alias": "deepseek-v3(iflowcn)"},
+        "fucaixie/deepseek-v3.2": {"alias": "deepseek-v3.2(venice)"},
+        "cliproxyapi/qwen3-coder-plus": {"alias": "qwen3-coder-plus(oauth)"},
+        "cliproxyapi/qwen3-coder-flash": {"alias": "qwen3-coder-flash(oauth)"}
+      }
+  },
+  "models": {
+    "providers": {
+      "fucaixie": {
+        "baseUrl": "https://fucaixie.xyz/v1",
+        "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "api": "openai-completions",
+        "models": [
+          {"id": "kimi-k2", "name": "kimi-k2(opencode)", "contextWindow": 256000}, 
+          {"id": "kimi-k2-0905", "name": "kimi-k2-0905(iflowcn)", "contextWindow": 256000}, 
+          {"id": "deepseek-v3", "name":"deepseek-v3(iflowcn)", "contextWindow": 128000}, 
+          {"id": "deepseek-v3.2", "name":"deepseek-v3.2(venice)", "contextWindow": 128000}
+        ]
+      },
+      "cliproxyapi": {
+        "baseUrl": "http://192.168.70.144:8317/v1",
+        "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "api": "openai-completions",
+        "models": [
+          {"id": "qwen3-coder-plus", "name": "qwen3-coder-plus(oauth)", "contextWindow": 128000}, 
+          {"id": "qwen3-coder-flash", "name": "qwen3-coder-flash(oauth)", "contextWindow": 128000}
+        ]
+      }
+    }
+  },
+
+}
+```
+
+
+
 
 
 
