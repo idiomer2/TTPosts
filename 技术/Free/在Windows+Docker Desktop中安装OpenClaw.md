@@ -103,6 +103,7 @@
 - （可选）可以提前安装插件：`openclaw plugins install @openclaw/feishu`
 - 开启channels向导：`openclaw channels add`
 - 后续参考官网教程即可 [飞书 - OpenClaw](https://docs.openclaw.ai/zh-CN/channels/feishu)
+- 每分钟一次心跳导致飞书额度不足，请参考 [OpenClaw 飞书API调用次数耗尽解决办法 - xx0a.com](https://xx0a.com/blog/openclaw-feishu)
 - 菜单栏配置：[OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
 
 
@@ -117,4 +118,6 @@
 - [别再用旧版了！OpenClaw 2026.2.9 更新迁移避坑指南 - 知乎](https://zhuanlan.zhihu.com/p/2004490565866251648)
 - [飞书 - OpenClaw](https://docs.openclaw.ai/zh-CN/channels/feishu)
 - [OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
+- [OpenClaw/Clawbot 飞书API额度被刷爆的解决办法_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1FmFCzgEWa)
+- [OpenClaw 飞书API调用次数耗尽解决办法 - xx0a.com](https://xx0a.com/blog/openclaw-feishu)
 - 
