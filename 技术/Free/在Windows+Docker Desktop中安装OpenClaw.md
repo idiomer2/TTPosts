@@ -117,3 +117,5 @@
 - [模型提供商 - OpenClaw](https://docs.openclaw.ai/zh-CN/concepts/model-providers#%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86%EF%BC%88lm-studio%E3%80%81vllm%E3%80%81litellm-%E7%AD%89%EF%BC%89)
 - [别再用旧版了！OpenClaw 2026.2.9 更新迁移避坑指南 - 知乎](https://zhuanlan.zhihu.com/p/2004490565866251648)
 - [飞书 - OpenClaw](https://docs.openclaw.ai/zh-CN/channels/feishu)
+- [OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
+- 
