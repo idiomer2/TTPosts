@@ -100,7 +100,7 @@
 
 ## 飞书配置
 
-- （可选，建议不要）可以提前安装插件：`openclaw plugins install @openclaw/feishu`
+- ~~（可选，建议不要）可以提前安装插件：`openclaw plugins install @openclaw/feishu`~~
 - 开启channels向导：`openclaw channels add`
 - 后续参考官网教程即可 [飞书 - OpenClaw](https://docs.openclaw.ai/zh-CN/channels/feishu)
 - 每分钟一次心跳导致飞书额度不足，请参考 [OpenClaw 飞书API调用次数耗尽解决办法 - xx0a.com](https://xx0a.com/blog/openclaw-feishu)
