@@ -33,3 +33,4 @@
 - [[Bug]: Onboarding wizard does not install Systemd service on Ubuntu 22.04 · Issue #1818 · openclaw/openclaw](https://github.com/openclaw/openclaw/issues/1818)
 - [OpenClaw 配置使用 API 教程](https://docs.n1n.ai/openclaw)
 - [别再硬磕官方 API 了：OpenClaw 接入第三方中转 (Claude 4.5) 避坑指南 - 知乎](https://zhuanlan.zhihu.com/p/2003568032631513843)
+- [模型提供商 - OpenClaw](https://docs.openclaw.ai/zh-CN/concepts/model-providers#%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86%EF%BC%88lm-studio%E3%80%81vllm%E3%80%81litellm-%E7%AD%89%EF%BC%89)
