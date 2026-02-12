@@ -2,9 +2,6 @@
 
 用AI通过vibe coding生成
 
-
-
-
 ## ② 改造成PWA
 
 1. html文件的head标签添加如下代码
@@ -129,4 +126,4 @@ self.addEventListener('activate', event => {
 6. 在html文件中引用 `<link href="./tailwindcss_3.4.17.min.css" rel="stylesheet">`，并删除原来的`<script src="https://cdn.tailwindcss.com/3.4.17">
 7. 在sw.js中添加tailwindcss_3.4.17.min.css的缓存
 
-这样，web页面打开时就会快很多；PWA应用也能缓存所有静态资源，打开速度也明显加快，且可以断网使用
+这样，web页面打开时就会快很多；PWA应用也能缓存所有静态资源，打开速度也明显加快，且可以断网使用*★,°*:.☆(￣▽￣)/$:*.°★* 。
