@@ -128,3 +128,8 @@ self.addEventListener('activate', event => {
 7. 在sw.js中添加tailwindcss_3.4.17.min.css的缓存
 
 这样，web页面打开时就会快很多；PWA应用也能缓存所有静态资源，打开速度也明显加快，且可以断网使用*★,°*:.☆(￣▽￣)/$:*.°★* 。
+
+
+## ④ 其它问题
+
+1. 高度不对：`h-screen` 改成 `h-dvh` 
