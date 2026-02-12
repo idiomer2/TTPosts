@@ -14,9 +14,10 @@
 
 
     <!-- PWA改造 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
     <link rel="manifest" href="./manifest.json">
     <link rel="apple-touch-icon" href="./icon.png">
-    <meta name="theme-color" content="#000000">
     <script>
         // 检查浏览器是否支持 Service Worker
         if ('serviceWorker' in navigator) {
