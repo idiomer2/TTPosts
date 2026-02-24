@@ -176,5 +176,6 @@ Agent代理会通过这些工具，在构建 Context 时（？？？）决定要
 ## 参考
 - https://dr.miromind.ai/share/b4ec1731-be28-4ebe-bc0e-e3d3e3f09ab9
 - [OpenClaw 架构解析：其工作原理](https://ppaolo.substack.com/p/openclaw-system-architecture-overview)
+- [深入解析：OpenClaw 的内存系统如何运作 |学习笔记 --- Deep Dive: How OpenClaw's Memory System Works | Study Notes](https://snowan.gitbook.io/study-notes/ai-blogs/openclaw-memory-system-deep-dive)
 
 
