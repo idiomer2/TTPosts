@@ -127,8 +127,10 @@ agents.defaults.compaction.memoryFlush:
 
 ##### ③ 记忆读取工具
 
-
-
+OpenClaw 给代理提供了一些“内部工具”来管理 memory：
+- `memory_search`：根据当前需求，在索引里做语义检索，找到相关片段
+- `memory_get`：根据文件路径和行范围，获取某一段原文（如果文件不存在，则返回空文本，不抛错）
+Agent代理会通过这些工具，在构建 Context 时（？？？）决定要不要把某段记忆插入进来
 
 
 
