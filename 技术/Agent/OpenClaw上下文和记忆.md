@@ -145,5 +145,6 @@ Agent代理会通过这些工具，在构建 Context 时（？？？）决定要
 
 ## 参考
 - https://dr.miromind.ai/share/b4ec1731-be28-4ebe-bc0e-e3d3e3f09ab9
+- [OpenClaw 架构解析：其工作原理](https://ppaolo.substack.com/p/openclaw-system-architecture-overview)
 
 
