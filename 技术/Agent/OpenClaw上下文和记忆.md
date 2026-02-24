@@ -52,7 +52,6 @@ OpenClaw将动态组装的系统提示词，连同对话历史和当前用户消
 2. 模型本身不会“魔法记忆”，只有写入磁盘的内容可以被索引和检索
 3. 检索到的记忆片段，会按需注入到下次 Context 中，从而“表现出”记住了
 
-
 ![openclaw记忆架构](https://snowan.gitbook.io/study-notes/~gitbook/image?url=https%3A%2F%2F388701358-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F-LmDY11BLFD0Iupj9U9t%252Fuploads%252Fgit-blob-09d2f21bf3aee37969856024c8ec6b740e04c29e%252Fopenclaw-memory.png%3Falt%3Dmedia&width=768&dpr=3&quality=100&sign=4419ffec&sv=2)
 
 ### 2.1 记忆的层次结构
@@ -60,12 +59,12 @@ OpenClaw将动态组装的系统提示词，连同对话历史和当前用户消
 Memory 大体分两层：
 
 1. **日记式记忆（Ephemeral / Daily Memory）**—— 日常笔记、运行上下文
-    - 路径：`memory/YYYY-MM-DD.md`
+    - 路径：`memory/YYYY-MM-DD.md` （每日日志是仅附加的文件，每天创建一个新文件）
     - 作用：
         - 记录当天发生的对话和事实（类似“对话日志 + 笔记”）；
         - 内容可以比较嘈杂和长，作为语料库供检索用。
     - 加载策略：
-        - 会话启动时，会优先读取**今天和昨天**两天的日志，作为背景。
+        - 会话启动时，会优先读取**今天和昨天**两天的日志，作为背景
     - 例如：
 	    - 今天讨论了如何部署到 AWS EC2
 	    - 遇到一个 bug，目前尚未修复，日志见某路径
@@ -77,7 +76,7 @@ Memory 大体分两层：
             - 用户固定偏好（回答风格、使用语言、常用工具等）
             - 项目重要长期决策（如架构选择、安全策略等）
     - 加载策略：
-        - 默认只在**主私有会话（main/private）**中加载；
+        - 默认只在 **主私有会话(main/private)** 中加载；
         - 群组会话不会加载 MEMORY.md，以避免隐私泄露。
     - 例如：
 	    - 用户喜欢简短回答，代码要可直接复制执行
