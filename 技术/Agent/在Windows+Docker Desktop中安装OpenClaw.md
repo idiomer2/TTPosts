@@ -109,6 +109,73 @@
 - 菜单栏配置：[OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
 
 
+```typescript
+import { createFeishuClient, type FeishuClientCredentials } from "./client.js";
+import type { FeishuProbeResult } from "./types.js";
+
+// added: define custom cache
+const PROBE_CACHE_TTL_MS = 1 * 60 * 60 * 1000;
+const probeCache = new Map<string, { result: FeishuProbeResult; timestamp: number }>();
+function getCacheKey(cfg?: FeishuClientCredentials): string {
+  if (!cfg?.appId) return "no-creds";
+  return `${cfg.appId}:${cfg.domain ?? "feishu"}`;
+}
+
+
+export async function probeFeishu(creds?: FeishuClientCredentials): Promise<FeishuProbeResult> {
+  if (!creds?.appId || !creds?.appSecret) {
+    return {
+      ok: false,
+      error: "missing credentials (appId, appSecret)",
+    };
+  }
+
+  // added: use custom cache
+  const cacheKey = getCacheKey(creds);
+  const cached = probeCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < PROBE_CACHE_TTL_MS) {
+    return cached.result;
+  }
+
+  try {
+    const client = createFeishuClient(creds);
+    // Use bot/v3/info API to get bot information
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- SDK generic request method
+    const response = await (client as any).request({
+      method: "GET",
+      url: "/open-apis/bot/v3/info",
+      data: {},
+    });
+
+    if (response.code !== 0) {
+      return {
+        ok: false,
+        appId: creds.appId,
+        error: `API error: ${response.msg || `code ${response.code}`}`,
+      };
+    }
+
+    const bot = response.bot || response.data?.bot;
+    const result = {
+      ok: true,
+      appId: creds.appId,
+      botName: bot?.bot_name,
+      botOpenId: bot?.open_id,
+    };
+    probeCache.set(cacheKey, { result, timestamp: Date.now() });  // added
+    return result;
+  } catch (err) {
+    return {
+      ok: false,
+      appId: creds.appId,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
+}
+
+```
+
+
 ## 参考资料
 - [Docker - OpenClaw](https://docs.openclaw.ai/zh-CN/install/docker)
 - [[Bug]: Docker install/onboarding stuck: CLI can’t connect to gateway (1006/1008), token mismatch due to OPENCLAW_GATEWAY_TOKEN override + confusing pairing flow/docs · Issue #9028 · openclaw/openclaw](https://github.com/openclaw/openclaw/issues/9028)
