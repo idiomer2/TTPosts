@@ -53,6 +53,8 @@ OpenClaw将动态组装的系统提示词，连同对话历史和当前用户消
 3. 检索到的记忆片段，会按需注入到下次 Context 中，从而“表现出”记住了
 
 
+![openclaw记忆架构](https://snowan.gitbook.io/study-notes/~gitbook/image?url=https%3A%2F%2F388701358-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F-LmDY11BLFD0Iupj9U9t%252Fuploads%252Fgit-blob-09d2f21bf3aee37969856024c8ec6b740e04c29e%252Fopenclaw-memory.png%3Falt%3Dmedia&width=768&dpr=3&quality=100&sign=4419ffec&sv=2)
+
 ### 2.1 记忆的层次结构
 
 Memory 大体分两层：
