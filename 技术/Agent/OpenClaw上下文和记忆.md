@@ -104,6 +104,14 @@ agents.defaults.compaction.memoryFlush:
 #### 2.3.2 历史记忆
 
 结合关键词匹配BM25算法和向量化索引做混合搜索(hybrid search)，融合公式 = 关键词30% + 向量检索70%
+- 上下文组装阶段
+	- 对于 MEMORY.md（长期记忆/精选记忆），系统仅在**主/私有会话**（Main/Private Session）中加载，群组上下文（Group Contexts）通常不加载此文件以保护隐私
+	- **自动注入 (默认行为)**：OpenClaw 会将`最近的对话历史` 和 `今天+昨天的每日日志（即 memory/YYYY-MM-DD.md）`注入到上下文窗口中
+	- **插件干预 (Auto-Recall)**：如果你使用了如 memory-core 插件或 mem0、cognee 等第三方插件，系统会在此阶段执行**向量/语义搜索**。它会根据当前用户的问题，通过 memory_search 逻辑在后台检索 MEMORY.md 和 memory/*.md 中的相关片段，并将其作为“背景知识”自动注入
+- 工具执行阶段
+	- **智能决策**：在默认配置下，OpenClaw 的 Agent 拥有 memory_search 工具。当模型（LLM）发现当前上下文不足以回答问题时，它会在推理过程中**主动发起**工具调用请求
+	- **搜索范围**：此时 memory_search 会对 MEMORY.md 和所有 memory/**/*.md 文件进行语义检索（Semantic Recall）
+	- **返回结果**：工具会返回最相关的 Markdown 文本片段（通常是约 400 token 的块，带有 80 token 的重叠），模型随后利用这些新信息生成回答
 
 ##### ① 索引源
 
