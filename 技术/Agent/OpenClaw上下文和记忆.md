@@ -56,9 +56,11 @@ OpenClaw将动态组装的系统提示词，连同对话历史和当前用户消
 
 ### 2.1 记忆的层次结构
 
-Memory 大体分两层：
+Memory 大体分三层：
 
-1. **日记式记忆（Ephemeral / Daily Memory）**—— 日常笔记、运行上下文
+1. **会话记忆**
+	- 路径：`sessions/YYYY-MM-DD-<slug>.md`
+2. **日记式记忆（Ephemeral / Daily Memory）**—— 日常笔记、运行上下文
     - 路径：`memory/YYYY-MM-DD.md` （每日日志是仅附加的文件，每天创建一个新文件）
     - 作用：
         - 记录当天发生的对话和事实（类似“对话日志 + 笔记”）；
@@ -68,7 +70,7 @@ Memory 大体分两层：
     - 例如：
 	    - 今天讨论了如何部署到 AWS EC2
 	    - 遇到一个 bug，目前尚未修复，日志见某路径
-2. **长期记忆（Long-term / Durable Memory）**—— 决策、偏好、持久事实
+3. **长期记忆（Long-term / Durable Memory）**—— 决策、偏好、持久事实
     - 文件：`MEMORY.md`（可选，但强烈推荐使用）
     - 用途：
         - 保存“经过整理和筛选的长期事实和偏好”，比如：
