@@ -114,7 +114,7 @@ import { createFeishuClient, type FeishuClientCredentials } from "./client.js";
 import type { FeishuProbeResult } from "./types.js";
 
 // added: define custom cache
-const PROBE_CACHE_TTL_MS = 1 * 60 * 60 * 1000;
+const PROBE_CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2小时一次，每月360/50000
 const probeCache = new Map<string, { result: FeishuProbeResult; timestamp: number }>();
 function getCacheKey(cfg?: FeishuClientCredentials): string {
   if (!cfg?.appId) return "no-creds";
