@@ -76,7 +76,18 @@ Memory 大体分两层：
 	- 当估计的 token 数接近 `contextWindow - reserveTokensFloor - softThresholdTokens` 时：
 		- 触发一个“静默回合”（通常不显示给用户）；
 		- 系统 prompt 会指示代理：“当前会话即将压缩，请把现在还没写到 Memory、但未来可能需要的关键信息写入 memory/YYYY-MM-DD.md”
+	- 每个压缩周期只触发一次 flush（在 sessions.json 中有标记）
 
+
+#### memoryFlush的典型配置
+```yaml
+agents.defaults.compaction.memoryFlush:
+  enabled: true
+  softThresholdTokens: 4000
+  reserveTokensFloor: 20000
+  systemPrompt: "Session nearing compaction. Store durable memories now."
+  prompt: "Write any lasting notes to memory/YYYY-MM-DD.md; reply with NO_REPLY if nothing to store."
+```
 
 ###  记忆读取机制
 
