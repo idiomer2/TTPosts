@@ -32,6 +32,27 @@ OpenClaw将动态组装的系统提示词，连同对话历史和当前用户消
 	1. Built-in tools: 内置工具，如bash、文件操作、浏览器、画布及核心功能
 	2. Plugin tools: 插件工具，通过扩展系统添加的自定义工具（通过`api.registerTool(toolName, toolDefinition)`注册）
 
+
+
+| 章节                           | 说明                                                | 示例  |
+| ---------------------------- | ------------------------------------------------- | --- |
+| **Tooling**                  | **工具：** 当前工具列表+简短描述                               |     |
+| **Safety**                   | **安全** ：简短的护栏提醒，避免Agent追求权力或绕过监管                  |     |
+| **Skills**                   | **技能** （如有）：告诉模型如何按需加载技能指令                        |     |
+| **OpenClaw <br>Self-Update** | OpenClaw 自我更新 ：如何运行 `config.apply` 和 `update.run` |     |
+| **Workspace**                | 工作目录（`agents.defaults.workspace`）                 |     |
+| **Documentation**            | 指向 OpenClaw 文档的本地路径（仓库或 npm 包）以及何时阅读              |     |
+| **Workspace Files**          | **工作区文件（注入）：** 表示下面包含引导文件<br>- Agents.md          |     |
+| **Sandbox**                  | **沙箱** （启用时）：表示沙箱运行时、沙箱路径以及是否可用升格执行               |     |
+| **Current <br>Date & Time**  | **当前日期和时间** ：用户-本地时间、时区及时间格式                      |     |
+| **Reply Tags**               | **回复标签** ：支持提供者可选的回复标签语法                          |     |
+| **Heartbeats**               | heartbeat prompt and ack behavior                 |     |
+| **Runtime**                  |                                                   |     |
+| **Reasoning**                |                                                   |     |
+|                              |                                                   |     |
+
+
+
 ### 📃 Conversation Histroy —— 当前会话的历史消息
 
 
