@@ -106,6 +106,7 @@
 - 每分钟一次心跳导致飞书额度不足，请参考 [OpenClaw 飞书API调用次数耗尽解决办法 - xx0a.com](https://xx0a.com/blog/openclaw-feishu)
 	- docker安装，在build时就已经将官方飞书插件代码打包在镜像里面了，改完后要重新build一次
 	- 官方飞书插件路径：./extensions/feishu (git源码)  --> /app/extensions/feishu (docker)
+- 飞书额度不足，可以直接修改/src/gateway/server-constants.ts#L34的`export const HEALTH_REFRESH_INTERVAL_MS = 60_000;`，将60000（1分钟），改为3600000（1小时）。这种改法会导致所有channels的健康检查间隔时长都变更 （https://github.com/m1heng/clawdbot-feishu/issues/170#issuecomment-3850718601）
 - 菜单栏配置：[OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
 
 
