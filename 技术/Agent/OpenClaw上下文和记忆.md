@@ -75,7 +75,7 @@ Memory 大体分两层：
 	- 当对话越来越长、Context 接近模型上限时，如果直接做 compaction，可能会导致**一些还没写入 Memory 的关键信息被摘要化乃至遗失**。为此，OpenClaw 设置了一个“预压缩记忆刷新（pre‑compaction memory flush）”机制
 	- 当估计的 token 数接近 `contextWindow - reserveTokensFloor - softThresholdTokens` 时：
 		- 触发一个“静默回合”（通常不显示给用户）；
-		- 系统 prompt 会指示代理：
+		- 系统 prompt 会指示代理：“当前会话即将压缩，请把现在还没写到 Memory、但未来可能需要的关键信息写入 memory/YYYY-MM-DD.md”
 
 
 ###  记忆读取机制
