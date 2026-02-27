@@ -28,6 +28,13 @@ WantedBy=multi-user.target  # 定义该服务被哪个 target 引用，通常填
 - **内存/CPU限制**：通过 `MemoryMax=`、`CPUQuota=` 实现资源控制。
 - **依赖其他服务**：在 `[Unit]` 中添加 `Requires=postgresql.service` 和 `After=postgresql.service`。
 
+注意事项
+- **绝对路径**：`ExecStart` 中务必使用绝对路径，避免 PATH 找不到
+- **Type 选择**：如果程序会 fork 并 daemonize，需用 `forking`；否则用 `simple`
+- **后台运行**：服务程序不要自己后台运行（如添加 `&`），systemd 会接管前台
+- **权限**：确保指定的 `User` 对工作目录和文件有读写权限
+- **停止信号**：若程序需要特殊停止信号（如 `SIGQUIT`），可自定义 `ExecStop`
+
 ## 使用和调试技巧
 
 1. **创建 service 文件**：保存到 `/etc/systemd/system/your-service.service`
