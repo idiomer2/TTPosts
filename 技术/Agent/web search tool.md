@@ -4,4 +4,5 @@
 | ------------- | --- |
 | tavily        |     |
 | exa           |     |
+| Searxng       |     |
 | firecrawl.dev |     |
