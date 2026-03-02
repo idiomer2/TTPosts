@@ -9,6 +9,42 @@ $SPARK_HOME/sbin/start-thriftserver.sh --hiveconf hive.server2.thrift.port=10001
 # $SPARK_HOME/sbin/start-thriftserver.sh --hiveconf hive.server2.thrift.port=10001 --conf spark.sql.catalog.paimon=org.apache.paimon.spark.SparkCatalog --conf spark.sql.catalog.paimon.metastore=filesystem --conf spark.sql.catalog.paimon.warehouse=oss://weelife-global-paimon-dw-hot/warehouse --conf spark.sql.extensions=org.apache.paimon.spark.extensions.PaimonSparkSessionExtensions --conf spark.sql.thriftServer.inactiveSessionTimeout=0  --jars /opt/apps/PAIMON/paimon-current/lib/spark3/paimon-spark-3.5-1-ali-6.2.1.jar   # 支持paimon
 ```
 
+### 开机自启动和失败重启
+```bash
+#!/bin/bash
+
+# crontab
+# * * * * * cd /mnt/disk1/data/scripts && ./check_spark_thrift_server.sh 2>&1 | tee -a /mnt/disk1/data/scripts/logs/check_spark_thrift_server.log
+
+# 检查系统已运行时间，如果小于 300 秒（5 分钟）则直接退出，不进行检测
+if [ -r /proc/uptime ]; then
+    read uptime_seconds < /proc/uptime
+    uptime_seconds=${uptime_seconds%%.*}  # 去掉小数部分，取整
+    if [ "$uptime_seconds" -lt 300 ]; then
+        echo `date` "开机不足 5 分钟，退出（不执行任何操作）"
+        exit 0
+    else
+        echo `date` "已开机 $uptime_seconds 秒"
+    fi
+else
+    echo `date` "未找到/proc/uptime"
+    exit 0
+fi
+
+# 使用 pgrep 匹配主类（更通用，但可能误判）
+if pgrep -f "org.apache.spark.sql.hive.thriftserver.HiveThriftServer2" > /dev/null; then
+    exit 0
+fi
+
+# 进程不存在，执行启动脚本
+export SPARK_HOME=/opt/apps/SPARK3/spark-current
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0
+export HADOOP_CONF_DIR=/etc/taihao-apps/hadoop-conf
+echo `date` "启动thriftserver"
+/opt/apps/SPARK3/spark-current/sbin/start-thriftserver.sh --hiveconf hive.server2.thrift.port=10001 --conf spark.sql.catalog.paimon=org.apache.paimon.spark.SparkCatalog --conf spark.sql.catalog.paimon.metastore=filesystem --conf spark.sql.catalog.paimon.warehouse=oss://weelife-global-paimon-dw-hot/warehouse --conf spark.sql.extensions=org.apache.paimon.spark.extensions.PaimonSparkSessionExtensions --conf spark.sql.thriftServer.inactiveSessionTimeout=0 --jars /opt/apps/PAIMON/paimon-current/lib/spark3/paimon-spark-3.5-1-ali-6.2.1.jar
+
+```
+
 # 安装pyhive依赖
 为了调用上述的thrift服务，我们使用pyhive做为客户端来连接，提交sql语句并获取结果。因此先安装好pyhive的相关python依赖
 
