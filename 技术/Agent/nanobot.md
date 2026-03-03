@@ -38,7 +38,7 @@ nanobot onboard  # 生成配置文件 ~/.nanobot/config.json
 
 - 测试：`nanobot agent -m "你好"`
 
-## 将搜索改为Tavily
+## 将搜索改为Tavily(支持轮询)
 
 - `vi ~/.conda/envs/py312nanobot/lib/python3.12/site-packages/nanobot/agent/tools/web.py`
 
@@ -122,7 +122,20 @@ class WebSearchTool(Tool):
 - 测试`nanobot agent -m "查询下当前的btc价格"`
 
 
+## LLM支持轮询
+- 修改代码
+```python
+        if self.api_key:
+            kwargs["api_key"] = self.api_key
+# 改为
+        if self.api_key:
+            import random
+            kwargs["api_key"] = self.api_key if ',' not in self.api_key else random.choice(self.api_key.split(','))
+```
+
+
 ## 接入飞书
+
 1. 修改配置文件`~/.nanobot/config.json`。其中allowFrom是你的飞书open_id，或改为"\*"；appid和appsecret去[飞书开放平台](https://open.feishu.cn/app/)创建
 	1. 创建一个应用，开启Bot能力
 	2. 添加权限**Permissions**：添加`im:message` (发消息) 和 `im:message.p2p_msg:readonly` (接收消息)
@@ -143,3 +156,5 @@ class WebSearchTool(Tool):
 
 2. `nanobot gateway` 启动网关服务
 3. 飞书上发消息给机器人即可 （gateway日志中有ou_xxxx）
+
+
