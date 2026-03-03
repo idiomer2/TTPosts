@@ -123,4 +123,19 @@ class WebSearchTool(Tool):
 
 
 ## 接入飞书
+1. 修改配置文件`~/.nanobot/config.json`。其中allowFrom是你的飞书open_id，或改为"\*"；appid和appsecret去[飞书开放平台](https://open.feishu.cn/app/)创建
 
+```
+    "feishu": {
+      "enabled": true,
+      "appId": "cli_xxx",
+      "appSecret": "xxxx",
+      "encryptKey": "",
+      "verificationToken": "",
+      "allowFrom": ["ou_xxxx"],
+      "reactEmoji": "THUMBSUP"
+    }
+```
+
+2. `nanobot gateway` 启动网关服务
+3. 飞书上发消息给机器人即可 （gateway日志中有ou_xxxx）
