@@ -42,5 +42,5 @@ WantedBy=multi-user.target  # 定义该服务被哪个 target 引用，通常填
 3. **启动/停止**：`sudo systemctl start your-service` / `sudo systemctl stop your-service`
 4. **设置开机自启**：`sudo systemctl enable your-service`
 5. **查看状态**：`sudo systemctl status your-service`
-6. **实时查看日志**：`journalctl -u your-service -f`
+6. **实时查看日志**：`journalctl -f -u your-service`
 7. **测试配置**：修改后先用 `systemd-analyze verify /etc/systemd/system/your-service.service` 检查语法
