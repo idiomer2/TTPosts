@@ -11,7 +11,7 @@ nanobot onboard  # 生成配置文件 ~/.nanobot/config.json
 
 ## 基础配置
 
-`vi ~/.nanobot/config.json`
+- `vi ~/.nanobot/config.json`
 
 ``` json
 {
@@ -36,6 +36,7 @@ nanobot onboard  # 生成配置文件 ~/.nanobot/config.json
 
 ```
 
+- 测试：`nanobot agent -m "你好"`
 
 ## 将搜索改为Tavily
 
@@ -103,3 +104,23 @@ class WebSearchTool(Tool):
         except Exception as e:
             return f"Error: {e}"
 ```
+
+- `vi ~/.nanobot/config.json`
+```json
+{
+  "tools": {
+    "web": {
+      "search": {
+        "apiKey": "tvly-dev-xxxxxxxxxxx",
+        "maxResults": 5
+      }
+    }
+  }
+}
+```
+
+- 测试`nanobot agent -m "查询下当前的btc价格"`
+
+
+## 接入飞书
+
