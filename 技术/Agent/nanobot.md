@@ -124,7 +124,11 @@ class WebSearchTool(Tool):
 
 ## 接入飞书
 1. 修改配置文件`~/.nanobot/config.json`。其中allowFrom是你的飞书open_id，或改为"\*"；appid和appsecret去[飞书开放平台](https://open.feishu.cn/app/)创建
-
+	1. 创建一个应用，开启Bot能力
+	2. 添加权限**Permissions**：添加`im:message` (发消息) 和 `im:message.p2p_msg:readonly` (接收消息)
+	3. 添加事件**Events**：添加 `im.message.receive_v1` (接收消息)。并选择**Long Connection** 模式 (requires running nanobot first to establish connection)
+	4. Get **App ID** and **App Secret** from "Credentials & Basic Info"
+	5. 发布app
 ```
     "feishu": {
       "enabled": true,
