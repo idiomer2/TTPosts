@@ -150,8 +150,9 @@ class WebSearchTool(Tool):
       "encryptKey": "",
       "verificationToken": "",
       "allowFrom": ["ou_xxxx"],
-      "reactEmoji": "THUMBSUP"
+      "reactEmoji": "OnIt"
     }
+    // reactEmoji: THUMBSUP, OK, EYES, DONE, OnIt, HEART
 ```
 
 2. `nanobot gateway` 启动网关服务
