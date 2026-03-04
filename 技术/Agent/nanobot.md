@@ -159,3 +159,9 @@ class WebSearchTool(Tool):
 3. 飞书上发消息给机器人即可 （gateway日志中有ou_xxxx）
 
 
+
+
+## 其它
+
+- LiteLLM:WARNING: get_model_cost_map.py:213 - LiteLLM: Failed to fetch remote model cost map from https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json: The read operation timed out. Falling back to local backup.
+	- 直接 `export LITELLM_LOCAL_MODEL_COST_MAP=true` 使用本地滞后的文件
