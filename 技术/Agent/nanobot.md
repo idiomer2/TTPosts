@@ -162,7 +162,26 @@ class WebSearchTool(Tool):
 
 ## 开启自启动
 
-```
+```service
+[Unit]
+Description=nanobot gateway
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/nanobot
+Environment="LITELLM_LOCAL_MODEL_COST_MAP=true"
+ExecStart=/root/.conda/envs/py312nanobot/bin/nanobot gateway
+ExecStop=/bin/kill -SIGTERM $MAINPID
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 
