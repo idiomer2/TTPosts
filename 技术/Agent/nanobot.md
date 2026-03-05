@@ -160,6 +160,11 @@ class WebSearchTool(Tool):
 
 
 
+## 开启自启动
+
+```
+```
+
 
 ## 其它
 
