@@ -1,4 +1,18 @@
 
+```bash
+# 下载配置文件
+mkdir ~/cliproxyapiplus && cd ~/cliproxyapiplus
+curl -o config.yaml https://raw.githubusercontent.com/router-for-me/CLIProxyAPIPlus/main/config.example.yaml
+#下载完成后修改远程访问配置 vi config.yaml
+#allow-remote: true
+#secret-key: '你的访问密码'
+
+# 拉取并运行镜像
+docker pull eceasy/cli-proxy-api-plus:v6.8.49-0 && docker tag eceasy/cli-proxy-api-plus:v6.8.49-0 eceasy/cli-proxy-api-plus:latest  # docker pull eceasy/cli-proxy-api-plus:latest
+
+docker run -d --name cli-proxy-api-plus --restart unless-stopped -p 8317:8317 -v "$(pwd)/config.yaml:/CLIProxyAPI/config.yaml" -v "$(pwd)/auths:/root/.cli-proxy-api" -v "$(pwd)/logs:/CLIProxyAPI/logs" eceasy/cli-proxy-api-plus:latest
+
+```
 
 
 ## 参考资料
