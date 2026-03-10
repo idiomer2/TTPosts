@@ -190,4 +190,4 @@ export async function probeFeishu(creds?: FeishuClientCredentials): Promise<Feis
 - [OpenClaw/Clawbot 配置飞书菜单栏解决高频操作 | 简单管理会话避免上下文过多 | 效率翻倍](https://www.bilibili.com/video/BV1uQcTzREWp)
 - [OpenClaw/Clawbot 飞书API额度被刷爆的解决办法_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1FmFCzgEWa)
 - [OpenClaw 飞书API调用次数耗尽解决办法 - xx0a.com](https://xx0a.com/blog/openclaw-feishu)
-- 
+- [ClawdHub 技能安装程序在官方 Docker 容器中使用 EACCES 失败 ·第 6620 期 ·Openclaw/Openclaw --- ClawdHub skill installer fails with EACCES in official Docker container · Issue #6620 · openclaw/openclaw](https://github.com/openclaw/openclaw/issues/6620)
