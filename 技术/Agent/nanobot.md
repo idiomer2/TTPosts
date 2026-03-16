@@ -123,7 +123,7 @@ class WebSearchTool(Tool):
 
 
 ## LLM支持轮询
-- 修改代码
+- 修改代码`~/.conda/envs/py312nanobot/lib/python3.12/site-packages/nanobot/`
 ```python
         if self.api_key:
             kwargs["api_key"] = self.api_key
