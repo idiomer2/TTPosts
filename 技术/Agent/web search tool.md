@@ -10,3 +10,58 @@
 | https://r.jina.ai/                     |                        |
 | markdown.new                           |                        |
 | scrapling extract get 'url' content.md | 微信文章                   |
+
+```python
+
+import time
+from scrapling.fetchers import StealthyFetcher # pip install "scrapling[all]" && scrapling install
+
+# 1. 定义一个交互函数，参数名必须接收 page 对象
+def signup_action(page):    
+    page.get_by_text('Sign up', exact=True).click(); time.sleep(3)
+
+    # 使用 CSS 选择器定位并输入文字 (fill)
+    page.get_by_role("textbox", name="Email address").fill("tavily04@zzftt.cloudns.biz"); time.sleep(3)
+    frame = page.frame_locator('iframe'); print(frame)
+    frame.locator('#success-text').wait_for(state='visible', timeout=30000)
+
+    # 点击提交按钮 (click)
+    page.get_by_role("button", name="Continue", exact=True).click(); time.sleep(3)
+
+    # login
+    if False:
+        page.wait_for_selector('#password', timeout=30*1000)
+        page.fill('#password', 'Tmpyb06011228++'); time.sleep(3)
+        # page.press('#password', 'Enter'); time.sleep(3)
+        page.get_by_role("button", name="action", exact=True).click(); time.sleep(3)
+    else:
+        code = 'xxxxxx'
+        page.wait_for_selector('#code', timeout=30*1000)
+        page.fill('#code', code); time.sleep(3)
+        page.get_by_role("button", name="action", exact=True).click(); time.sleep(3)
+
+    time.sleep(60)
+
+# 2. 将交互函数通过 page_action 传给 Fetcher
+# 当 Scrapling 打开网页后，会立刻执行 login_action，然后再捕获最终的网页源码
+page_result = StealthyFetcher.fetch('https://app.tavily.com/home', headless=False, page_action=signup_action)  # 传入刚才定义的函数signup_action
+
+```
+
+```python
+
+import time
+from playwright.sync_api import sync_playwright  # pip install playwright && playwright install
+from playwright_stealth import Stealth  # pip install playwright-stealth
+
+with Stealth().use_sync(sync_playwright()) as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
+    page.goto("https://app.tavily.com/home")
+    page.wait_for_timeout(10000)
+    page.get_by_role("textbox", name="Email address").fill("tavily04@zzftt.cloudns.biz"); time.sleep(1)
+    page.get_by_role("button", name="Continue", exact=True).click(); time.sleep(5)
+    page.screenshot(path="stealth_screenshot.png")
+    browser.close()
+
+```
