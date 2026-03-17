@@ -141,6 +141,7 @@ $$ W \cdot x + (\frac{\alpha}{r}) \cdot (B \cdot A) \cdot x$$
 		- 在大模型主流架构中，MLP 包含了三个巨大的线性矩阵：`gate_proj`、`up_proj` 和 `down_proj`。学术界的新共识：如果把 Transformer 比作人类的大脑：
 			- **Attention** 决定了“信息如何在大脑中流通和连接”（工作记忆、注意力分布）
 			- **MLP** 则被认为是模型的**“知识库/长期记忆”**（Knowledge Factual Base）
+		- 因此，**如果你希望微调不仅改变风格，还要注入大量新知识，就必须把 LoRA 作用在 MLP 的权重上。**  这也催生了社区里著名的 **"All-Linear"（全线性层）** 策略：即把 LoRA 贴在 Attention 以及 MLP 的所有层上
 
 
 
