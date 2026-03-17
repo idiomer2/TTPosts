@@ -114,7 +114,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from peft import PeftModel
 
-mode_path = 'D:/cached_models/qwen/Qwen2___5-0___5B-Instruct/'
+mode_path = '/mnt/d/cached_models/qwen/Qwen2___5-0___5B-Instruct/'
 lora_path = './output/Qwen2_instruct_lora/checkpoint-10' # 这里改称你的 lora 输出对应 checkpoint 地址
 
 
