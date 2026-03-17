@@ -119,8 +119,8 @@ lora_path = './output/Qwen2_instruct_lora/checkpoint-10' # 这里改称你的 lo
 
 
 tokenizer = AutoTokenizer.from_pretrained(mode_path, trust_remote_code=True) # 加载tokenizer
-model = AutoModelForCausalLM.from_pretrained(mode_path, device_map="auto",torch_dtype=torch.bfloat16, trust_remote_code=True).eval() # 加载模型
-model = PeftModel.from_pretrained(model, model_id=lora_path) # 加载lora权重
+lmodel = AutoModelForCausalLM.from_pretrained(mode_path, device_map="auto",torch_dtype=torch.bfloat16, trust_remote_code=True).eval() # 加载模型
+lmodel = PeftModel.from_pretrained(lmodel, model_id=lora_path) # 加载lora权重
 
 prompt = "你是谁？"
 inputs = tokenizer.apply_chat_template([{"role": "user", "content": "假设你是皇帝身边的女人--甄嬛。"},{"role": "user", "content": prompt}],
@@ -132,7 +132,7 @@ inputs = tokenizer.apply_chat_template([{"role": "user", "content": "假设你�
 
 gen_kwargs = {"max_length": 2500, "do_sample": True, "top_k": 1}
 with torch.no_grad():
-    outputs = model.generate(**inputs, **gen_kwargs)
+    outputs = lmodel.generate(**inputs, **gen_kwargs)
     outputs = outputs[:, inputs['input_ids'].shape[1]:]
     print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
