@@ -116,6 +116,7 @@ trainer.train()
 
 
 ## LoRA
+LoRAzhi
 
 $$ W \cdot x $$
 变成
