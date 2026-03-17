@@ -122,6 +122,20 @@ class WebSearchTool(Tool):
 - 测试`nanobot agent -m "查询下当前的btc价格"`
 
 
+### 新版（>= v0.1.4.post5）
+- 修改`~/.conda/envs/py312nanobot/lib/python3.12/site-packages/nanobot/agent/tools/web.py`
+```python
+    async def _search_tavily(self, query: str, n: int) -> str:
+        api_key = self.config.api_key or os.environ.get("TAVILY_API_KEY", "")
+        if not api_key:
+            logger.warning("TAVILY_API_KEY not set, falling back to DuckDuckGo")
+            return await self._search_duckduckgo(query, n)
+        # 手动新增下列3行，以支持多key随机轮询
+        elif ',' in api_key:
+            import random
+            api_key = random.choice(api_key.split(','))
+```
+
 ## LLM支持轮询
 - 修改代码`~/.conda/envs/py312nanobot/lib/python3.12/site-packages/nanobot/providers/litellm_provider.py`
 ```python
