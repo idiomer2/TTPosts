@@ -28,13 +28,13 @@ model_dir = snapshot_download('qwen/Qwen2.5-0.5B-Instruct', cache_dir='D:/cached
 from datasets import Dataset
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM, DataCollatorForSeq2Seq, TrainingArguments, Trainer, GenerationConfig
-df = pd.read_json('C:/Users/Administrator/Downloads/huanhuan.json')
+df = pd.read_json('/mnt/c/Users/Administrator/Downloads/huanhuan.json')
 ds = Dataset.from_pandas(df)
 ds[:3]
 
 
 # 处理数据集
-tokenizer = AutoTokenizer.from_pretrained('D:/cached_models/qwen/Qwen2___5-0___5B-Instruct/', use_fast=False, trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained('/mnt/d/cached_models/qwen/Qwen2___5-0___5B-Instruct/', use_fast=False, trust_remote_code=True)
 tokenizer
 
 
@@ -67,7 +67,7 @@ tokenizer.decode(list(filter(lambda x: x != -100, tokenized_id[1]["labels"])))
 
 # 创建模型
 import torch
-model = AutoModelForCausalLM.from_pretrained('D:/cached_models/qwen/Qwen2___5-0___5B-Instruct/', device_map="auto",torch_dtype=torch.bfloat16)
+model = AutoModelForCausalLM.from_pretrained('/mnt/d/cached_models/qwen/Qwen2___5-0___5B-Instruct/', device_map="auto",torch_dtype=torch.bfloat16)
 model
 model.enable_input_require_grads() # 开启梯度检查点时，要执行该方法
 model.dtype
