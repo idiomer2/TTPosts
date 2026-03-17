@@ -129,7 +129,8 @@ $$ W \cdot x + (\frac{\alpha}{r}) \cdot (B \cdot A) \cdot x$$
 	- 如果 Alpha 设得很高，模型输出就会极度偏向你训练的 LoRA 风格；如果设得很低，LoRA 的影响就若隐若现
 	- 常规法则：通常把alpha设置为r的1倍或2倍（例如r=8，则alpha=8或16）
 	- 为什么要设计成 $\frac{\alpha}{r}$ 这样的比值？为什么 Alpha 总是要和 r 捆绑在一起？
-		- 因为r越大，AB乘积结果的mei'ge就容易越大，
+		- 因为r越大，AB乘积结果的元素平均值就容易越大，因此lora权重就应该降低
+		- 所以，
 
 
 
