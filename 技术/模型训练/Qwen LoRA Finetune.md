@@ -1,4 +1,7 @@
 
+## 一、LoRA实战
+### ① 环境配置
+
 ```bash
 conda create -y -n py312finetine python=3.12
 conda activate py312finetine
@@ -13,7 +16,7 @@ pip install peft==0.11.1
 
 ```
 
-
+### ② 底模下载
 ```python
 # 下载底座模型
 import torch
@@ -22,7 +25,7 @@ import os
 model_dir = snapshot_download('qwen/Qwen2.5-0.5B-Instruct', cache_dir='D:/cached_models/', revision='master')
 ```
 
-
+### ③ 微调模型
 ```python
 # 微调模型  %cd F:/code/private/learn-finetune/
 
@@ -114,8 +117,41 @@ trainer = Trainer(
 trainer.train()
 ```
 
+### ④ 测试模型
 
-## LoRA
+```python
+# 合并加载模型
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+from peft import PeftModel
+
+mode_path = '/mnt/d/cached_models/qwen/Qwen2.5-0.5B-Instruct/'
+lora_path = './output/Qwen2_instruct_lora/checkpoint-699' # 这里改称你的 lora 输出对应 checkpoint 地址
+
+
+tokenizer = AutoTokenizer.from_pretrained(mode_path, trust_remote_code=True) # 加载tokenizer
+lmodel = AutoModelForCausalLM.from_pretrained(mode_path, device_map="cuda",torch_dtype=torch.bfloat16, trust_remote_code=True).eval() # 加载模型
+lmodel = PeftModel.from_pretrained(lmodel, model_id=lora_path) # 加载lora权重
+
+prompt = "你是谁？"
+inputs = tokenizer.apply_chat_template(
+    [{"role": "system", "content": "假设你是皇帝身边的女人--甄嬛。"},{"role": "user", "content": prompt}],
+    add_generation_prompt=True,
+    tokenize=True,
+    return_tensors="pt",
+    return_dict=True
+).to('cuda')
+
+gen_kwargs = {"max_length": 2500, "do_sample": True, "top_k": 1}
+with torch.no_grad():
+    outputs = lmodel.generate(**inputs, **gen_kwargs)
+    outputs = outputs[:, inputs['input_ids'].shape[1]:]
+    print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
+
+
+## 二、LoRA数学原理
+
 LoRA通常只作用于线性层（全连接层 / Dense Layer），其数学原理是将：
 
 $$ W \cdot x $$
@@ -145,6 +181,54 @@ $$ W \cdot x + (\frac{\alpha}{r}) \cdot (B \cdot A) \cdot x$$
 
 
 
+## 三、LoRA训练经验
+
+### ① 经验一：数据质量 > 数据数量（“100条精标胜过1万条垃圾”）
+
+很多人以为微调模型需要海量数据，其实对于 LoRA 来说，**数据质量是绝对的生命线**。
+*   **格式对齐：** 如果微调 LLM，你的训练数据格式（Prompt Format）必须和原模型**完全一致**。如果基座是 Llama-3，就必须用 Llama-3 的 `<|start_header_id|>` 格式组织你的数据。格式一旦错位，LoRA 学到的全是“如何纠正格式错误”，而不是你的业务知识。
+*   **多样性陷阱：** 如果你的 1000 条训练数据全都是“请帮我写一首关于XX的诗”，模型训练完后会发生**模式坍塌（Mode Collapse）**——你问它“1+1等于几”，它也会吟一首诗。你必须在数据集中混入一些常规对话数据，以保持模型的通用能力。
+*   **AI 绘画中的打标：** 训练人物 LoRA 时，如果所有的图片都是白背景，你不把“白背景 (white background)”写进提示词里，模型就会把白背景当成这个人物的“固有特征”。**把你不想要模型绑定的特征，写进打标文本里剥离出来。**
+
+### ② 经验二：学习率（Learning Rate）要比全量微调大 10 倍
+
+很多新手照搬全量微调（Full Fine-tuning）的经验，把学习率设成 `1e-5`（0.00001），结果跑了几天发现模型毫无变化（Loss 根本不降）。
+*   **LoRA 专属区间：** 因为 LoRA 的参数量极小，你需要更大的学习率来推动它更新。通常，LLM 的 LoRA 学习率设置在 **`1e-4` 到 `3e-4`** 之间（对于 AdamW 优化器）。
+*   **预热机制（Warmup）：** 千万别上来就给满学习率！一定要设置 Warmup Ratio（通常是 0.05 到 0.1）。让学习率在前 5%~10% 的步数里慢慢爬升到 `1e-4`，然后再缓慢下降（Cosine Decay）。这能极大避免训练初期模型直接崩溃。
+
+### ③ 经验三：千万别迷信 Loss 曲线（用眼睛去评估）
+
+炼丹师最大的错觉就是：“Loss 一直在降，模型肯定越来越好”。
+*   **过拟合（Overfitting）的温水煮青蛙：** LoRA 非常容易过拟合。当 Loss 降到极低时，模型其实已经变成了“复读机”，只会死记硬背你的训练集，完全丧失了举一反三的能力（灾难性遗忘）。
+*   **正确的做法（Checkpoint 盲测）：**
+    1. 哪怕只训练 3 个 Epoch，也要每隔半个 Epoch 保存一个权重（Checkpoint）。
+    2. 准备一个**不在训练集中**的测试问题列表。
+    3. 把保存的几个 Checkpoint 拿出来，挨个输入测试问题，**用肉眼看它的回答/生成的图片**。
+    4. 往往你会发现，Loss 最低的最后一个 Checkpoint 效果很僵硬，反而是中间的某个 Checkpoint 兼顾了“原模型的聪明”和“新注入的知识”。
+
+### ④ 经验四：基座模型（Base Model）决定了你的天花板
+
+**LoRA 只是方向盘，基座模型才是发动机。**
+*   不要指望用 LoRA 把一个 1.5B 的小模型“教”成 GPT-4 的智商。LoRA 最擅长的是**“改变输出风格（Style）”、“规范输出格式（Format）”和“注入少量垂直领域知识（Knowledge）”**。
+*   如果你要训练一个“暴躁老哥问答机器人”，你应该选一个本身就足够聪明、逻辑推理好的 Chat 模型作为基座，然后用 LoRA 去扭转它的语气；而不是选一个根本没经过指令微调的纯预训练（Base）模型，那样 LoRA 既要教它怎么对话，又要教它怎么暴躁，负担太重。
+
+### ⑤ 经验五：参数组合的黄金法则（太长不看版）
+
+在面对几十个超参数不知所措时，直接套用这套目前开源社区的**黄金默认值**，可以在 80% 的场景下拿到 85 分的成绩：
+*   **Rank ($r$)**：设为 `16`。（8 有点少，32 以上提升不明显且容易过拟合）。
+*   **Alpha ($\alpha$)**：设为 `32`（即 $\alpha = 2r$）。
+*   **Target Modules**：无脑选 `all-linear`（把 Q, K, V, O, MLP 全加上）。虽然显存多占一点，但效果最扎实。
+*   **Epoch**：大语言模型通常 `3` 到 `5` 个 Epoch 足矣。
+*   **Batch Size**：在你显卡撑得住的范围内尽可能大（比如 `4` 或 `8`），配合梯度累加（Gradient Accumulation）让等效 Batch Size 达到 `16` 或 `32`，这能让梯度下降的方向更稳定。
+
+### ⑥ 经验六：2026 年的前沿替代方案（进阶）
+
+既然你已经深入了解了 LoRA，一定要知道在当下的技术栈中，原生 LoRA 已经有了一些非常强悍的升级变体，在实战中经常能直接替换标准 LoRA 取得更好效果：
+*   **DoRA (Weight-Decomposed LoRA)：** 它把权重的“方向”和“大小（幅度）”拆解开来训练。经验上，**DoRA 能在更低的 Rank 下达到甚至超越全量微调的效果**，而且没那么容易过拟合，现在很多微调框架（如 LLaMA-Factory）只需勾选一下 `use_dora` 即可。
+*   **PiSSA / O-LoRA：** 传统的 LoRA 初始矩阵 B 是全 0 的。而这些新技术通过对原模型的权重进行奇异值分解（SVD），把最核心的参数抽出来作为 LoRA 初始化，剩下的作为冻结基座。这相当于**“赢在起跑线上”**，收敛速度极快。
+
+**总结一句话：**
+成功的 LoRA 微调 = **极其干净的领域数据** + **选对聪明的基座** + **all-linear 目标层** + **10倍于平时的学习率** + **及时提前停止训练以防过拟合**。
 
 
 ## 参考资料
