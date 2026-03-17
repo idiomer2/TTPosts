@@ -24,13 +24,18 @@ import os
 model_dir = snapshot_download('qwen/Qwen2.5-0.5B-Instruct', cache_dir='D:/cached_models/', revision='master')
 
 
-
+# 导入环境
 from datasets import Dataset
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM, DataCollatorForSeq2Seq, TrainingArguments, Trainer, GenerationConfig
 df = pd.read_json('C:/Users/Administrator/Downloads/huanhuan.json')
 ds = Dataset.from_pandas(df)
 ds[:3]
+
+
+# 处理数据集
+tokenizer = AutoTokenizer.from_pretrained('D:/cached_models/qwen/Qwen2___5-0___5B-Instruct/', use_fast=False, trust_remote_code=True)
+tokenizer
 
 
 def process_func(example):
@@ -56,10 +61,19 @@ tokenized_id
 
 
 tokenizer.decode(tokenized_id[0]['input_ids'])
+
 tokenizer.decode(list(filter(lambda x: x != -100, tokenized_id[1]["labels"])))
-tokenizer.decode(list(filter(lambda x: x != -100, tokenized_id[0]["labels"])))
+
+
+# 创建模型
+import torch
+model = AutoModelForCausalLM.from_pretrained('D:/cached_models/qwen/Qwen2___5-0___5B-Instruct/', device_map="auto",torch_dtype=torch.bfloat16)
 model
+model.enable_input_require_grads() # 开启梯度检查点时，要执行该方法
 model.dtype
+
+
+# lora
 from peft import LoraConfig, TaskType, get_peft_model
 config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
@@ -74,6 +88,7 @@ model = get_peft_model(model, config)
 model.print_trainable_parameters()
 
 
+# 配置训练参数
 args = TrainingArguments(
     output_dir="./output/Qwen2_instruct_lora",
     per_device_train_batch_size=4,
