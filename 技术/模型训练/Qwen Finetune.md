@@ -123,7 +123,8 @@ lmodel = AutoModelForCausalLM.from_pretrained(mode_path, device_map="auto",torch
 lmodel = PeftModel.from_pretrained(lmodel, model_id=lora_path) # 加载lora权重
 
 prompt = "你是谁？"
-inputs = tokenizer.apply_chat_template([{"role": "user", "content": "假设你是皇帝身边的女人--甄嬛。"},{"role": "user", "content": prompt}],
+prompt = "你会啥"
+inputs = tokenizer.apply_chat_template([{"role": "system", "content": "假设你是皇帝身边的女人--甄嬛。"},{"role": "user", "content": prompt}],
                                        add_generation_prompt=True,
                                        tokenize=True,
                                        return_tensors="pt",
