@@ -14,15 +14,20 @@ pip install peft==0.11.1
 ```
 
 
-
 ```python
-%cd F:/code/private/learn-finetune/
-
+# 下载底座模型
 import torch
 from modelscope import snapshot_download, AutoModel, AutoTokenizer
 import os
 model_dir = snapshot_download('qwen/Qwen2.5-0.5B-Instruct', cache_dir='D:/cached_models/', revision='master')
+```
 
+
+```python
+# 微调模型  %cd F:/code/private/learn-finetune/
+
+import os
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = "expandable_segments:True"  # 减小峰值显存占用，随借随还
 
 # 导入环境
 from datasets import Dataset
@@ -30,13 +35,12 @@ import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM, DataCollatorForSeq2Seq, TrainingArguments, Trainer, GenerationConfig
 df = pd.read_json('/mnt/c/Users/Administrator/Downloads/huanhuan.json')
 ds = Dataset.from_pandas(df)
-ds[:3]
+print(ds[:3])
 
 
 # 处理数据集
-tokenizer = AutoTokenizer.from_pretrained('/mnt/d/cached_models/qwen/Qwen2___5-0___5B-Instruct/', use_fast=False, trust_remote_code=True)
-tokenizer
-
+tokenizer = AutoTokenizer.from_pretrained('/mnt/d/cached_models/qwen/Qwen2.5-0.5B-Instruct/', use_fast=False, trust_remote_code=True)
+print(tokenizer)
 
 def process_func(example):
     MAX_LENGTH = 384    # Llama分词器会将一个中文字切分为多个token，因此需要放开一些最大长度，保证数据的完整性
@@ -57,23 +61,19 @@ def process_func(example):
     }
 
 tokenized_id = ds.map(process_func, remove_columns=ds.column_names)
-tokenized_id
-
-
-tokenizer.decode(tokenized_id[0]['input_ids'])
-
-tokenizer.decode(list(filter(lambda x: x != -100, tokenized_id[1]["labels"])))
+print(tokenized_id)
+print(tokenizer.decode(tokenized_id[0]['input_ids']))
+print(tokenizer.decode(list(filter(lambda x: x != -100, tokenized_id[1]["labels"]))))
 
 
 # 创建模型
 import torch
-model = AutoModelForCausalLM.from_pretrained('/mnt/d/cached_models/qwen/Qwen2___5-0___5B-Instruct/', device_map="auto",torch_dtype=torch.bfloat16)
-model
-model.enable_input_require_grads() # 开启梯度检查点时，要执行该方法
-model.dtype
+model = AutoModelForCausalLM.from_pretrained('/mnt/d/cached_models/qwen/Qwen2.5-0.5B-Instruct/', device_map="cuda",torch_dtype=torch.bfloat16)
+print(model)
+print(model.dtype)
 
 
-# lora
+# lora配置
 from peft import LoraConfig, TaskType, get_peft_model
 config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
@@ -83,9 +83,7 @@ config = LoraConfig(
     lora_alpha=32, # Lora alaph，具体作用参见 Lora 原理
     lora_dropout=0.1# Dropout 比例
 )
-config
-model = get_peft_model(model, config)
-model.print_trainable_parameters()
+print(config)
 
 
 # 配置训练参数
@@ -95,11 +93,18 @@ args = TrainingArguments(
     gradient_accumulation_steps=4,
     logging_steps=10,
     num_train_epochs=3,
-    save_steps=10, # 为了快速演示，这里设置10，建议你设置成100
+    save_steps=100, # 为了快速演示，这里设置10，建议你设置成100
     learning_rate=1e-4,
     save_on_each_node=True,
-    gradient_checkpointing=True
+    gradient_checkpointing=True,
+    #bf16=True,  # ！！！新增这一行，强制 Trainer 使用 bfloat16
 )
+if args.gradient_checkpointing:
+    model.enable_input_require_grads() # 开启梯度检查点时(gradient_checkpointing=True)，要执行该方法
+
+# lora训练
+model = get_peft_model(model, config)
+model.print_trainable_parameters()
 trainer = Trainer(
     model=model,
     args=args,
@@ -107,36 +112,6 @@ trainer = Trainer(
     data_collator=DataCollatorForSeq2Seq(tokenizer=tokenizer, padding=True),
 )
 trainer.train()
-
-
-# 合并加载模型
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-from peft import PeftModel
-
-mode_path = '/mnt/d/cached_models/qwen/Qwen2___5-0___5B-Instruct/'
-lora_path = './output/Qwen2_instruct_lora/checkpoint-10' # 这里改称你的 lora 输出对应 checkpoint 地址
-
-
-tokenizer = AutoTokenizer.from_pretrained(mode_path, trust_remote_code=True) # 加载tokenizer
-lmodel = AutoModelForCausalLM.from_pretrained(mode_path, device_map="auto",torch_dtype=torch.bfloat16, trust_remote_code=True).eval() # 加载模型
-lmodel = PeftModel.from_pretrained(lmodel, model_id=lora_path) # 加载lora权重
-
-prompt = "你是谁？"
-prompt = "你会啥"
-inputs = tokenizer.apply_chat_template([{"role": "system", "content": "假设你是皇帝身边的女人--甄嬛。"},{"role": "user", "content": prompt}],
-                                       add_generation_prompt=True,
-                                       tokenize=True,
-                                       return_tensors="pt",
-                                       return_dict=True
-                                       ).to('cuda')
-
-gen_kwargs = {"max_length": 2500, "do_sample": True, "top_k": 1}
-with torch.no_grad():
-    outputs = lmodel.generate(**inputs, **gen_kwargs)
-    outputs = outputs[:, inputs['input_ids'].shape[1]:]
-    print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-
 ```
 
 
