@@ -116,7 +116,7 @@ trainer.train()
 
 
 ## LoRA
-LoRA通常只作用于线性层（Linear Layers），其数学原理是将：
+LoRA通常只作用于线性层（全连接层 / Dense Layer），其数学原理是将：
 
 $$ W \cdot x $$
 变成
