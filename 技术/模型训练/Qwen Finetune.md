@@ -115,6 +115,17 @@ trainer.train()
 ```
 
 
+## LoRA
+
+$$ W \cdot x $$
+变成
+$$ W \cdot x + (\frac{\alpha}{r}) \cdot (B \cdot A) \cdot x$$
+
+其中：
+- A是随机高斯初始化的小矩阵，如shape=(10000, 8)
+- B是全零初始化的小矩阵，如shape=(8, 10000)
+- r是是AB相乘后矩阵的秩，如r=8
+
 ## 参考资料
 
 - [self-llm/models/Qwen2.5/05-Qwen2.5-7B-Instruct Lora 微调.md at master · datawhalechina/self-llm](https://github.com/datawhalechina/self-llm/blob/master/models/Qwen2.5/05-Qwen2.5-7B-Instruct%20Lora%20%E5%BE%AE%E8%B0%83.md)
