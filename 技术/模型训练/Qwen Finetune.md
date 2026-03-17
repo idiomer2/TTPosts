@@ -116,7 +116,7 @@ trainer.train()
 
 
 ## LoRA
-LoRAzhi
+LoRA通常只作用于线性层（Linear Layers），其数学原理是将：
 
 $$ W \cdot x $$
 变成
