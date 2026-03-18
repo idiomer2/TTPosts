@@ -108,18 +108,21 @@ def login_action(page):
     print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(3)
     
     otp_input = page.locator('input[data-input-otp="true"]')
-    time.sleep(3)
-    if otp_input.count() > 0:
-        otp_input.fill(input("请输入验证码："));print("验证码已输入")
-    else:
-        print("OTP输入框不存在，跳过")
+	try:
+	    otp_input.wait_for(timeout=10*1000)
+	    otp_input.fill(input("请输入验证码："));print("验证码已输入")
+	except:
+	    print("OTP输入框不存在，跳过")
     
     channel = page.locator('span:has-text("Other / Not sure")')
-    time.sleep(5)
-    if channel.count() > 0:
+    try:
+        channel.wait_for(timeout=10*1000)
         channel.click()
-        page.click('Button:has-text("Continue")')
-    else:
+        try:
+            page.locator('Button:has-text("Continue")').click()
+        except:
+            print('点击Continue按钮失败')
+    except:
 	    print('不存在Other / Not sure')
     
     page.wait_for_selector('button:has-text("Get API Key")', timeout=300*1000);
