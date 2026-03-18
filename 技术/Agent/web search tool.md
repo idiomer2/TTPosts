@@ -110,11 +110,11 @@ def login_action(page):
     otp_input = page.locator('input[data-input-otp="true"]')
     time.sleep(3)
     if otp_input.count() > 0:
-        otp_input.fill("123456"); print("验证码已输入")
+        otp_input.fill(input("请输入验证码："));print("验证码已输入")
     else:
         print("OTP输入框不存在，跳过")
     
-    page.wait_for_selector('button:has-text("Get API Key")');
+    page.wait_for_selector('button:has-text("Get API Key")', timeout=300*1000);
     page.click('button:has-text("Get API Key")');
 
     time.sleep(300);
