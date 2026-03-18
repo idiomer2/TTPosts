@@ -125,12 +125,17 @@ def login_action(page):
     except:
 	    print('不存在Other / Not sure')
     
-    page.wait_for_selector('button:has-text("Get API Key")', timeout=300*1000);
-    page.click('button:has-text("Get API Key")');
+    page.wait_for_selector('button:has-text("API Key")', timeout=300*1000);
+    if page.locator('Create API Key').count() > 0:
+        page.click('button:has-text("Create API Key")');
+    elif page.locator('Get API Key').count() > 0:
+	    page.click('button:has-text("Get API Key")');
+	    page.click('button:has-text("Create")');
+	else:
+	    page.click('button:has-text("API Key")');
 
-    page.click('button:has-text("Create")');
     page.fill('input#name', 'FirstKey');
-    page.click('button:has-text("Create")');
+    page.locator('button:has-text("Create")').click();
     
     page.wait_for_selector('code:has-text("sk-or-")'); time.sleep(3)
 
