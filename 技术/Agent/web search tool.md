@@ -117,6 +117,9 @@ def login_action(page):
     page.wait_for_selector('button:has-text("Get API Key")', timeout=300*1000);
     page.click('button:has-text("Get API Key")');
 
+    page.click('button:has-text("Create")');
+    page.click('input#name');
+
     time.sleep(300);
 
     
