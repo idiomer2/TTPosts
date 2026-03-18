@@ -108,11 +108,11 @@ def login_action(page):
     print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(3)
     
     otp_input = page.locator('input[data-input-otp="true"]')
-	try:
-	    otp_input.wait_for(timeout=10*1000)
-	    otp_input.fill(input("请输入验证码："));print("验证码已输入")
-	except:
-	    print("OTP输入框不存在，跳过")
+    try:
+        otp_input.wait_for(timeout=10*1000)
+        otp_input.fill(input("请输入验证码："));print("验证码已输入")
+    except:
+        print("OTP输入框不存在，跳过")
     
     channel = page.locator('span:has-text("Other / Not sure")')
     try:
@@ -123,21 +123,23 @@ def login_action(page):
         except:
             print('点击Continue按钮失败')
     except:
-	    print('不存在Other / Not sure')
+        print('不存在Other / Not sure')
     
     page.wait_for_selector('button:has-text("API Key")', timeout=300*1000);
     if page.locator('Create API Key').count() > 0:
         page.click('button:has-text("Create API Key")');
     elif page.locator('Get API Key').count() > 0:
-	    page.click('button:has-text("Get API Key")');
-	    page.click('button:has-text("Create")');
-	else:
-	    page.click('button:has-text("API Key")');
+        page.click('button:has-text("Get API Key")');
+        page.locator('button:has-text("Create")').first.click();
+    else:
+        page.click('button:has-text("API Key")');
 
     page.fill('input#name', 'FirstKey');
-    page.locator('button:has-text("Create")').click();
+    page.locator('button:has-text("Create")').last.click();
     
-    page.wait_for_selector('code:has-text("sk-or-")'); time.sleep(3)
+    page.wait_for_selector('code:has-text("sk-or-")')
+    print(page.locator('code:has-text("sk-or-")').first.text_content())
+    time.sleep(3)
 
 
 proxy = 'http://username:password@31.59.20.176:6754'
