@@ -114,6 +114,14 @@ def login_action(page):
     else:
         print("OTP输入框不存在，跳过")
     
+    channel = page.locator('span:has-text("Other / Not sure")')
+    time.sleep(5)
+    if channel.count() > 0:
+        channel.click()
+        page.click('Button:has-text("Continue")')
+    else:
+    
+    
     page.wait_for_selector('button:has-text("Get API Key")', timeout=300*1000);
     page.click('button:has-text("Get API Key")');
 
