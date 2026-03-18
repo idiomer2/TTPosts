@@ -119,6 +119,7 @@ def login_action(page):
 
     page.click('button:has-text("Create")');
     page.click('input#name');
+    page.click('button:has-text("Create")');
 
     time.sleep(300);
 
