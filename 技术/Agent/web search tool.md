@@ -150,5 +150,5 @@ email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
 
 from scrapling.fetchers import stealthy_fetch
 page = stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=reg_action, proxy=proxy) #; view(page)
-# stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=login_action, proxy=proxy)
+# stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=login_action, proxy=proxy); api_key=page.css('code')[0].text; print(api_key)
 ```
