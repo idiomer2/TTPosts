@@ -120,7 +120,7 @@ def login_action(page):
         channel.click()
         page.click('Button:has-text("Continue")')
     else:
-    
+	    print('不存在Other / Not sure')
     
     page.wait_for_selector('button:has-text("Get API Key")', timeout=300*1000);
     page.click('button:has-text("Get API Key")');
