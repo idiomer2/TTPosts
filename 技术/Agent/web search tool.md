@@ -118,8 +118,10 @@ def login_action(page):
     page.click('button:has-text("Get API Key")');
 
     page.click('button:has-text("Create")');
-    page.click('input#name');
+    page.fill('input#name', 'FirstKey');
     page.click('button:has-text("Create")');
+    
+    page.wai
 
     time.sleep(300);
 
