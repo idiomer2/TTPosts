@@ -69,7 +69,7 @@ with Stealth().use_sync(sync_playwright()) as p:
 ### openrouter注册
 
 ```python
-def action(page):
+def reg_action(page):
     import time
     print('click: Sign Up'); page.get_by_text('Sign Up', exact=True).nth(0).click()
 
@@ -92,11 +92,21 @@ def action(page):
 
     print('wait for: Verify email page'); page.wait_for_selector('.cl-headerTitle', timeout=300*1000); print('Verify email has send!')
 
+def login_action(page):
+    import time
+    print('click: Sign Up'); page.get_by_text('Sign Up', exact=True).nth(0).click()
+
+    print('wait for: emailAddress'); page.wait_for_selector('#emailAddress-field', timeout=30*1000)
+    page.click('a:text-is("Sign in")');
+
+    print('wait for: identifier'); page.wait_for_selector('#identifier-field', timeout=30*1000)
+    print('input: identifier'); page.locator('#identifier-field').fill(email); time.sleep(3)
+    
 
 proxy = 'http://username:password@31.59.20.176:6754'
 email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
 
 from scrapling.fetchers import stealthy_fetch
-page = stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=action, proxy=proxy) #; view(page)
+page = stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=reg_action, proxy=proxy) #; view(page)
 
 ```
