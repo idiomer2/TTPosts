@@ -84,7 +84,10 @@ def action(page):
     
     try:
         print('wait for: iframe'); frame = page.frame_locator('iframe'); print(frame)
-        print('wait for: CF'); frame.locator('input.cb-i').wait_for(state='visible', timeout=30000)
+        print('wait for: CF'); frame.locator('input.cb-i').wait_for(state='visible', timeout=10*1000);print('found input.cb-i')
+        print('click: CF'); frame.locator('input.cb-i').click(); print('clicked'); time.sleep(10)
+        
+        print('click again: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(1)
     except Exception as e:
         print(e)
 
