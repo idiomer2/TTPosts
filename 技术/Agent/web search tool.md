@@ -81,8 +81,13 @@ def action(page):
 
     print('click: legalAccepted'); page.locator('#legalAccepted-field').click(); time.sleep(1)
     print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(1)
+    
+    try:
+        print('wait for: CF'); page.wait_for_selector('iframe', timeout=300*1000)
+    except Exception as e:
+        print(e)
 
-    print('wait for: Verify email page'); page.wait_for_selector('#resend')
+    print('wait for: Verify email page'); page.wait_for_selector('#resend', timeout=300*1000)
 
 
 proxy = 'http://username:password@31.59.20.176:6754'
