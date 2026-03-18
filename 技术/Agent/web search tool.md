@@ -83,7 +83,7 @@ def action(page):
     print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(1)
     
     try:
-        print('wait for: CF'); page.wait_for_selector('iframe', timeout=300*1000)
+        print('wait for: CF'); frame = page.frame_locator('iframe'); print(frame)
     except Exception as e:
         print(e)
 
