@@ -126,9 +126,9 @@ def login_action(page):
         print('不存在Other / Not sure')
     
     page.wait_for_selector('button:has-text("API Key")', timeout=300*1000);
-    if page.locator('Create API Key').count() > 0:
+    if page.locator('button:has-text("Create API Key")').count() > 0:
         page.click('button:has-text("Create API Key")');
-    elif page.locator('Get API Key').count() > 0:
+    elif page.locator('button:has-text("Get API Key")').count() > 0:
         page.click('button:has-text("Get API Key")');
         
         print('wait for: Create'); page.wait_for_selector('button:has-text("Create")');
@@ -150,5 +150,5 @@ email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
 
 from scrapling.fetchers import stealthy_fetch
 page = stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=reg_action, proxy=proxy) #; view(page)
-
+# stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=login_action, proxy=proxy)
 ```
