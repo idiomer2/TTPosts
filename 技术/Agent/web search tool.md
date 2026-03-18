@@ -105,7 +105,10 @@ def login_action(page):
     print('wait for: password'); page.wait_for_selector('#password-field', timeout=30*1000)
     print('input: password'); page.locator('#password-field').fill(password); time.sleep(3)
     
-    print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(1)
+    print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(3)
+    
+    otp_input = page.locator('input[data-input-otp="true"]')
+    
     
     page.wait_for_selector('button:has-text("Get API Key")');
     page.click('button:has-text("Get API Key")');
