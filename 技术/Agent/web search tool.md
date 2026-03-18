@@ -102,6 +102,10 @@ def login_action(page):
     print('wait for: identifier'); page.wait_for_selector('#identifier-field', timeout=30*1000)
     print('input: identifier'); page.locator('#identifier-field').fill(email); time.sleep(3)
     
+    print('wait for: password'); page.wait_for_selector('#password-field', timeout=30*1000)
+    print('input: password'); page.locator('#password-field').fill(password); time.sleep(3)
+
+    
 
 proxy = 'http://username:password@31.59.20.176:6754'
 email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
