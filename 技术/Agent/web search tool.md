@@ -121,11 +121,8 @@ def login_action(page):
     page.fill('input#name', 'FirstKey');
     page.click('button:has-text("Create")');
     
-    page.wai
+    page.wait_for_selector('code:has-text("sk-or-")'); time.sleep(3)
 
-    time.sleep(300);
-
-    
 
 proxy = 'http://username:password@31.59.20.176:6754'
 email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
