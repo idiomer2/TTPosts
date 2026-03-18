@@ -130,7 +130,10 @@ def login_action(page):
         page.click('button:has-text("Create API Key")');
     elif page.locator('Get API Key').count() > 0:
         page.click('button:has-text("Get API Key")');
-        page.locator('button:has-text("Create")').first.click();
+        
+        print('wait for: Create'); page.wait_for_selector('button:has-text("Create")');
+        print('clicking: Create'); page.locator('button:has-text("Create")').first.click();
+        print('finish: Create');
     else:
         page.click('button:has-text("API Key")');
 
