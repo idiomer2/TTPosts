@@ -69,10 +69,8 @@ with Stealth().use_sync(sync_playwright()) as p:
 ### openrouter注册
 
 ```python
-import time
-from scrapling.fetchers import stealthy_fetch
-
 def action(page):
+    import time
     print('click: Sign Up'); page.get_by_text('Sign Up', exact=True).nth(0).click()
 
     print('wait for: emailAddress'); page.wait_for_selector('#emailAddress-field', timeout=30*1000)
@@ -86,8 +84,11 @@ def action(page):
 
     print('wait for: Verify email page'); page.wait_for_selector('#resend')
 
+
 proxy = 'http://username:password@31.59.20.176:6754'
-email, password = 'ifu200jf@zzftt.cloudns.biz', '123qweASD!@#'
-page = stealthy_fetch('https://openrouter.ai', headless=False, page_action=action, proxy=proxy) #; view(page)
+email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
+
+from scrapling.fetchers import stealthy_fetch
+page = stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=action, proxy=proxy) #; view(page)
 
 ```
