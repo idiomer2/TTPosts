@@ -87,12 +87,10 @@ def action(page):
         print('wait for: CF'); checkbox_label = frame.locator('.cb-lb').wait_for(timeout=15*1000); print('found .cb-lb')
         print('模拟鼠标移动'); page.mouse.move(700, 488); time.sleep(0.5);
         print('click: CF'); frame.locator('.cb-lb').click(); print('clicked'); time.sleep(10)
-        
-        print('click again: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(1)
     except Exception as e:
         print(e)
 
-    print('wait for: Verify email page'); page.wait_for_selector('#resend', timeout=300*1000)
+    print('wait for: Verify email page'); page.wait_for_selector('.cl-headerTitle', timeout=300*1000); print('Verify email has send!')
 
 
 proxy = 'http://username:password@31.59.20.176:6754'
