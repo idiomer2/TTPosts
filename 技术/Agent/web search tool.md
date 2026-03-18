@@ -106,6 +106,11 @@ def login_action(page):
     print('input: password'); page.locator('#password-field').fill(password); time.sleep(3)
     
     print('click: Continue'); page.get_by_text('Continue', exact=True).click(); time.sleep(1)
+    
+    page.wait_for('button:has-text("Get API Key")');
+    page.click('button:has-text("Get API Key")');
+    
+    time.sleep(300);
 
     
 
