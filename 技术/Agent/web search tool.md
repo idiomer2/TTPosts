@@ -91,6 +91,7 @@ def reg_action(page):
         print(e)
 
     print('wait for: Verify email page'); page.wait_for_selector('.cl-headerTitle', timeout=300*1000); print('Verify email has send!')
+    page.wait_for_timeout(5000)
 
 def login_action(page):
     import time
