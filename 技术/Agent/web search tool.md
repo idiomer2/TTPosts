@@ -84,9 +84,9 @@ def reg_action(page):
     
     try:
         print('wait for: iframe'); frame = page.frame_locator('iframe').first; print(frame)
-        print('wait for: CF'); checkbox_label = frame.locator('.cb-lb').wait_for(timeout=15*1000); print('found .cb-lb')
+        print('wait for: CF'); (checkbox_label := frame.locator('.cb-lb')).wait_for(timeout=15*1000); print('found .cb-lb')
         print('模拟鼠标移动'); page.mouse.move(700, 488); time.sleep(0.5);
-        print('click: CF'); frame.locator('.cb-lb').click(); print('clicked'); time.sleep(10)
+        print('click: CF'); checkbox_label.click(); print('clicked'); time.sleep(10)
     except Exception as e:
         print(e)
 
