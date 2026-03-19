@@ -147,7 +147,7 @@ def login_action(page):
 
 proxy = 'http://username:password@31.59.20.176:6754'
 #email, password = 'ifu200jf@zzftt.cloudns.biz', '456rtyFGH++'
-email, password = '3874brooke@dollicons.com', '456rtyFGH++'
+email, password = 'anichurmuhammada6+seal@gmail.com', '456rtyFGH++'
 
 # from scrapling.fetchers import stealthy_fetch
 page = stealthy_fetch('https://openrouter.ai', headless=False, google_search=False, solve_cloudflare=True, page_action=reg_action, proxy=proxy) #; view(page)
