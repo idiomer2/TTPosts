@@ -38,7 +38,7 @@ nanobot onboard  # 生成配置文件 ~/.nanobot/config.json
 
 - 测试：`nanobot agent -m "你好"`
 
-## 将搜索改为Tavily(支持轮询)
+## 将搜索改为Tavily(支持轮询) (废弃)
 
 - `vi ~/.conda/envs/py312nanobot/lib/python3.12/site-packages/nanobot/agent/tools/web.py`
 
@@ -146,6 +146,24 @@ class WebSearchTool(Tool):
             import random
             kwargs["api_key"] = self.api_key if ',' not in self.api_key else random.choice(self.api_key.split(','))
 ```
+
+## 支持查看调用工具
+
+```python
+                for tool_call in response.tool_calls:
+                    tools_used.append(tool_call.name)
+                    args_str = json.dumps(tool_call.arguments, ensure_ascii=False)
+                    logger.info("Tool call: {}({})", tool_call.name, args_str[:200])
+                    # 👇 add #
+                    if on_progress:
+                        _send_task = asyncio.create_task(on_progress("🔧 {}({})".format(tool_call.name, (args_str[:200]+'\n...' if len(args_str)>200 else args_str))))
+                    # 👆 add #
+                    result = await self.tools.execute(tool_call.name, tool_call.arguments)
+                    messages = self.context.add_tool_result(
+                        messages, tool_call.id, tool_call.name, result
+                    )
+```
+
 
 
 ## 接入飞书
