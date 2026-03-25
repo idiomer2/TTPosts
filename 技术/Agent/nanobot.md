@@ -193,6 +193,7 @@ class WebSearchTool(Tool):
 
 
 ## 开启自启动
+- `/etc/systemd/system/nanobot.service `
 
 ```service
 [Unit]
