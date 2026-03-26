@@ -148,16 +148,17 @@ class WebSearchTool(Tool):
 ```
 
 ## 支持查看调用工具
+- ``
 
 ```python
                 for tool_call in response.tool_calls:
                     tools_used.append(tool_call.name)
                     args_str = json.dumps(tool_call.arguments, ensure_ascii=False)
                     logger.info("Tool call: {}({})", tool_call.name, args_str[:200])
-                    # 👇 add #
+                    ############# 👇 add #############
                     if on_progress:
                         _send_task = asyncio.create_task(on_progress("🔧 {}({})".format(tool_call.name, (args_str[:200]+'\n...' if len(args_str)>200 else args_str))))
-                    # 👆 add #
+                    ############# 👆 add #############
                     result = await self.tools.execute(tool_call.name, tool_call.arguments)
                     messages = self.context.add_tool_result(
                         messages, tool_call.id, tool_call.name, result
